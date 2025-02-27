@@ -1,45 +1,66 @@
 #include <iostream>
 using namespace std;
 
-// 面向对象三大特性：封装、继承、多态
-
 /*
-封装的语法：
+访问权限
+公共权限   public         类内可以访问，类外也可以访问
+保护权限   protected      类内可以访问，类外不可以访问    子类可以访问
+私有权限   private        类内可以访问，类外不可以访问    子类不可以访问
 
-class 类名 {
-访问权限:
-    属性（成员变量）
-    行为（成员函数）
-};
+B -> A
+
+A  父类、基类       名字、房子、支付密码
+B  子类、派生类     公有、保护、私有
+
 */
 
-class Hero {
-    // 访问权限  public private protected
-public:
-    // 属性
-    int   m_Id;   // m -> member
-    int   m_Hp;   
 
-    // 行为
-    void addHp(int hp) {
-        m_Hp += hp;
+class People {
+    // 公有权限
+public:
+    int m_Id;
+
+    // 保护权限
+protected:
+    int m_HouseId;
+
+    // 私有权限
+private:
+    int m_PayPass;
+
+public:
+    void work() {
+        // 所有成员变量，类内均可以访问
+        m_Id = 1;
+        m_HouseId = 2;
+        m_PayPass = 1314;
+    }
+private:
+    void work1() {
+        // 所有成员变量，类内均可以访问
+        m_Id = 1;
+        m_HouseId = 2;
+        m_PayPass = 1314;
     }
 
-    void subHp(int hp) {
-        m_Hp -= hp;
+};
+
+
+class Son : public People {
+    void func() {
+        m_Id = 1;
+        m_HouseId = 4;    // 保护成员，子类可以访问
+        // m_PayPass = 123;  // 私有成员，子类无法访问
     }
 };
 
 int main() {
-    // 通过类来生成对象的过程，叫  实例化
-    Hero h;
-    // 访问对象的属性
-    h.m_Id = 5;
-    h.m_Hp = 100;
-    h.addHp(100);
-    cout << "Id 为" << h.m_Id << "的英雄，血量是" << h.m_Hp << endl;
-    h.subHp(100);
-    cout << "Id 为" << h.m_Id << "的英雄，血量是" << h.m_Hp << endl;
-
+    // 实例化
+    People p;
+    p.m_Id = 1;       // 公有成员，类外可以访问
+    //p.m_HouseId = 5;  // 保护成员，类外不可以访问
+    //p.m_PayPass = 10; // 私有成员，类外不可以访问
+    p.work();
+    // p.work1();        // 私有成员函数，类外不可访问
     return 0;
 }
